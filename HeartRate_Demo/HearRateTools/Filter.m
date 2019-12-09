@@ -6,11 +6,11 @@
 //  Copyright © 2016年 吴冰. All rights reserved.
 //
 
-#import "Fiter.h"
+#import "Filter.h"
 
 #define GAIN    1.894427025e+01
 
-@implementation Fiter
+@implementation Filter
 
 -(float) processValue:(float) value {
     xv[0] = xv[1]; xv[1] = xv[2]; xv[2] = xv[3]; xv[3] = xv[4]; xv[4] = xv[5]; xv[5] = xv[6]; xv[6] = xv[7]; xv[7] = xv[8]; xv[8] = xv[9]; xv[9] = xv[10];

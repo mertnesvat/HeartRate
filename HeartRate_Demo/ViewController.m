@@ -9,14 +9,14 @@
 #import "ViewController.h"
 #import <AVFoundation/AVFoundation.h>
 #import "PulseDetector.h"
-#import "Fiter.h"
+#import "Filter.h"
 @interface ViewController ()<AVCaptureVideoDataOutputSampleBufferDelegate>{
     BOOL showText; //自己个性化加个标识
 }
 @property(nonatomic, strong) AVCaptureSession *session;
 @property(nonatomic, strong) AVCaptureDevice *camera;
 @property(nonatomic, strong) PulseDetector *pulseDetector;
-@property(nonatomic, strong) Fiter *fiter;
+@property(nonatomic, strong) Filter *filter;
 @property(nonatomic, assign) CURRENT_STATE currentState;
 @property(nonatomic, assign) int validFrameCounter;
 
@@ -53,7 +53,7 @@
     self.ValidFrames.font = [UIFont boldSystemFontOfSize:20];
     [self.view addSubview:self.ValidFrames];
     
-    self.fiter = [[Fiter alloc]init];
+    self.filter = [[Filter alloc]init];
     
     self.pulseDetector = [[PulseDetector alloc]init];
     
@@ -109,6 +109,7 @@
     
     //启动
     [self.session startRunning];
+    [self torchModeOn];
     
     //相机状态
     self.currentState=STATE_SAMPLING;
@@ -155,6 +156,14 @@
     
     //程序关掉 或退出后台
     [UIApplication sharedApplication].idleTimerDisabled = YES;
+}
+
+-(void) torchModeOn {
+    if([self.camera isTorchModeSupported:AVCaptureTorchModeOn]) {
+        [self.camera lockForConfiguration:nil];
+        self.camera.torchMode=AVCaptureTorchModeOn;
+        [self.camera unlockForConfiguration];
+    }
 }
 
 //网上找的算法
@@ -216,7 +225,7 @@ void RGBtoHSV( float r, float g, float b, float *h, float *s, float *v ) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 //回调或者说是通知主线程刷新，
                 self.PulseRate.font = [UIFont boldSystemFontOfSize:20];
-                self.PulseRate.text = @"正在获取,请耐心等待,请不要把手指移开！";
+                self.PulseRate.text = @"Put your finger gently to the Camera with covering Flash!";
             });
         }
     }
@@ -263,7 +272,7 @@ void RGBtoHSV( float r, float g, float b, float *h, float *s, float *v ) {
         self.validFrameCounter++;
         
         //滤波器色调值,滤波器是一个简单的带通滤波器,消除任何直流分量和高频噪音
-        float filtered=[self.fiter processValue:h];
+        float filtered=[self.filter processValue:h];
         
         
         if(self.validFrameCounter > MIN_FRAMES_FOR_FILTER_TO_SETTLE) {
