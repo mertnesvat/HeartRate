@@ -18,9 +18,27 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="RMMSD HRV RESULT" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0cI-EL-dsb">
+                                <rect key="frame" x="0.0" y="737" width="414" height="36"/>
+                                <color key="backgroundColor" systemColor="linkColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="30"/>
+                                <color key="textColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="0cI-EL-dsb" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Aie-W2-SIT"/>
+                            <constraint firstAttribute="trailing" secondItem="0cI-EL-dsb" secondAttribute="trailing" id="CfP-se-Jk7"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="0cI-EL-dsb" secondAttribute="bottom" constant="40" id="lNu-qo-EHT"/>
+                            <constraint firstItem="0cI-EL-dsb" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="wzr-rF-kss"/>
+                        </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Item" id="4Oo-8k-xbI"/>
+                    <connections>
+                        <outlet property="rmmsd" destination="0cI-EL-dsb" id="aId-EQ-mxd"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
@@ -32,6 +50,7 @@
                 <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="AUZ-Y8-cq3" customClass="TabBarControllerViewController" sceneMemberID="viewController">
                     <toolbarItems/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="ViC-ri-DAh">
+                        <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </tabBar>

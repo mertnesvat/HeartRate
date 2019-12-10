@@ -12,6 +12,12 @@
 #define AVERAGE_SIZE 20
 #define INVALID_PULSE_PERIOD -1
 
+@protocol AnalysisDelegate
+
+-(void) rmssdIsReady: (float)result;
+
+@end
+
 @interface PulseDetector : NSObject {
 	float upVals[AVERAGE_SIZE];
 	float downVals[AVERAGE_SIZE];
@@ -32,10 +38,11 @@
 }
 
 @property (nonatomic, assign) float periodStart;
-
+@property (nonatomic, assign) id<AnalysisDelegate> delegate;
 
 -(float) addNewValue:(float) newVal atTime:(double) time;
 -(float) getAverage;
 -(void) reset;
+-(float) calculateRMSSD;
 
 @end

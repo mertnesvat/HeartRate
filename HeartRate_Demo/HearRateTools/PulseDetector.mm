@@ -96,8 +96,11 @@
 			periods[periodIndex]=time-periodStart;
 			periodTimes[periodIndex]=time;
 			periodIndex++;
+            NSLog(@"\n PERIOD INDEX = %d", periodIndex);
 			if(periodIndex>=MAX_PERIODS_TO_STORE) {
-				periodIndex=0;
+                float hrv = [self calculateRMSSD];
+                [self.delegate rmssdIsReady:hrv];
+                periodIndex=0;
 			}
 		}
 		periodStart=time;
@@ -108,6 +111,36 @@
 		return 1;
 	}
 	return 0;
+}
+/*
+ static func calcRMSSD(_ intervals: [Double]) -> Double {
+     var d = 0.0
+
+     let size = intervals.count
+     for i in 0 ..< size - 1 {
+         let interval0 = intervals[i]
+         let interval1 = intervals[i + 1]
+         let diff = interval1 - interval0
+         d += (diff * diff)
+     }
+
+     return sqrt(d / Double(size - 1))
+ }
+
+ 
+ */
+-(float) calculateRMSSD {
+    float d = 0.0;
+    float size = MAX_PERIODS_TO_STORE-1;
+    for (int i = 0; i < MAX_PERIODS_TO_STORE-1; i++) {
+        float interval0 = periodTimes[i];
+        float interval1 = periodTimes[i+1];
+        float diff = interval1 - interval0;
+        
+        d += (diff * diff);
+    }
+    
+    return sqrt(d/size);
 }
 
 -(float) getAverage {

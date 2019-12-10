@@ -10,7 +10,7 @@
 #import <AVFoundation/AVFoundation.h>
 #import "PulseDetector.h"
 #import "Filter.h"
-@interface ViewController ()<AVCaptureVideoDataOutputSampleBufferDelegate>{
+@interface ViewController ()<AVCaptureVideoDataOutputSampleBufferDelegate, AnalysisDelegate>{
     BOOL showText; //自己个性化加个标识
 }
 @property(nonatomic, strong) AVCaptureSession *session;
@@ -22,6 +22,7 @@
 
 @property (nonatomic, strong) UILabel * PulseRate;
 @property (nonatomic, strong) UILabel * ValidFrames;
+@property (weak, nonatomic) IBOutlet UILabel *rmmsd;
 
 @end
 
@@ -56,6 +57,7 @@
     self.filter = [[Filter alloc]init];
     
     self.pulseDetector = [[PulseDetector alloc]init];
+    self.pulseDetector.delegate = self;
     
     [self startCameraCapture];
 
@@ -211,14 +213,14 @@ void RGBtoHSV( float r, float g, float b, float *h, float *s, float *v ) {
         dispatch_async(dispatch_get_main_queue(), ^{
             //回调或者说是通知主线程刷新，
             self.PulseRate.font = [UIFont boldSystemFontOfSize:23];
-            self.PulseRate.text=@"请将手指放在闪光灯在位置";
+            self.PulseRate.text=@"Keep your finger on the flash!";
         });
 
     } else {
         
         
         //得到的数据(可以用来显示进度条或心电图)********
-        NSLog(@"int:%d",self.validFrameCounter);
+//        NSLog(@"int:%d",self.validFrameCounter);
         //*********
         if (!showText) {
             //通知主线程刷新
@@ -295,7 +297,7 @@ void RGBtoHSV( float r, float g, float b, float *h, float *s, float *v ) {
     //距离等于100显示加载中
     if (distance == 100) showText = NO;
     
-    self.ValidFrames.text = [NSString stringWithFormat:@"手指距离闪光灯距离: %ld%%",distance];
+    self.ValidFrames.text = [NSString stringWithFormat:@"Frames are added: %ld%%",distance];
     
     //如果我们停下来然后是无事可做
     if(self.currentState==STATE_PAUSED) return;
@@ -328,5 +330,11 @@ void RGBtoHSV( float r, float g, float b, float *h, float *s, float *v ) {
     }
 }
 
+- (void)rmssdIsReady:(float)result {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.rmmsd.text = [[NSString alloc] initWithFormat:@"RMMSD Result = %f", result];
+    });
+    
+}
 
 @end
