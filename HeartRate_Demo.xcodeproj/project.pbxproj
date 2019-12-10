@@ -19,6 +19,7 @@
 		4210E7E01CC0A7B9009F15C3 /* PulseDetector.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4210E7DF1CC0A7B9009F15C3 /* PulseDetector.mm */; };
 		D77B65F1239F006400AA71AE /* TabBarControllerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D77B65F0239F006400AA71AE /* TabBarControllerViewController.m */; };
 		D77B65F4239F00A900AA71AE /* HistoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D77B65F3239F00A900AA71AE /* HistoryViewController.m */; };
+		D78A622723A02650005D7376 /* HRVUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D78A622623A02650005D7376 /* HRVUtils.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,6 +64,8 @@
 		D77B65F0239F006400AA71AE /* TabBarControllerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TabBarControllerViewController.m; sourceTree = "<group>"; };
 		D77B65F2239F00A900AA71AE /* HistoryViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HistoryViewController.h; sourceTree = "<group>"; };
 		D77B65F3239F00A900AA71AE /* HistoryViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HistoryViewController.m; sourceTree = "<group>"; };
+		D78A622523A02650005D7376 /* HeartRate_Demo-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "HeartRate_Demo-Bridging-Header.h"; sourceTree = "<group>"; };
+		D78A622623A02650005D7376 /* HRVUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HRVUtils.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -113,6 +116,7 @@
 		4210E7A61CC0A6EE009F15C3 /* HeartRate_Demo */ = {
 			isa = PBXGroup;
 			children = (
+				D78A622423A0263F005D7376 /* Helpers */,
 				4210E7DA1CC0A716009F15C3 /* HearRateTools */,
 				4210E7AA1CC0A6EE009F15C3 /* AppDelegate.h */,
 				4210E7AB1CC0A6EE009F15C3 /* AppDelegate.m */,
@@ -166,6 +170,15 @@
 				4210E7DF1CC0A7B9009F15C3 /* PulseDetector.mm */,
 			);
 			path = HearRateTools;
+			sourceTree = "<group>";
+		};
+		D78A622423A0263F005D7376 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				D78A622623A02650005D7376 /* HRVUtils.swift */,
+				D78A622523A02650005D7376 /* HeartRate_Demo-Bridging-Header.h */,
+			);
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -236,6 +249,7 @@
 					4210E7A31CC0A6EE009F15C3 = {
 						CreatedOnToolsVersion = 7.2.1;
 						DevelopmentTeam = 3YA74M59BZ;
+						LastSwiftMigration = 1120;
 					};
 					4210E7BC1CC0A6EE009F15C3 = {
 						CreatedOnToolsVersion = 7.2.1;
@@ -302,6 +316,7 @@
 			files = (
 				D77B65F1239F006400AA71AE /* TabBarControllerViewController.m in Sources */,
 				4210E7DD1CC0A71F009F15C3 /* Filter.m in Sources */,
+				D78A622723A02650005D7376 /* HRVUtils.swift in Sources */,
 				4210E7E01CC0A7B9009F15C3 /* PulseDetector.mm in Sources */,
 				4210E7AF1CC0A6EE009F15C3 /* ViewController.m in Sources */,
 				4210E7AC1CC0A6EE009F15C3 /* AppDelegate.m in Sources */,
@@ -381,6 +396,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -424,6 +440,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -445,12 +462,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = 3YA74M59BZ;
 				INFOPLIST_FILE = HeartRate_Demo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mertnesvat.hrvAnalysis;
 				PRODUCT_NAME = "HRV Analysis";
+				SWIFT_OBJC_BRIDGING_HEADER = "HeartRate_Demo/Helpers/HeartRate_Demo-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -458,18 +479,22 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = 3YA74M59BZ;
 				INFOPLIST_FILE = HeartRate_Demo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mertnesvat.hrvAnalysis;
 				PRODUCT_NAME = "HRV Analysis";
+				SWIFT_OBJC_BRIDGING_HEADER = "HeartRate_Demo/Helpers/HeartRate_Demo-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
 		4210E7D51CC0A6EF009F15C3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				INFOPLIST_FILE = HeartRate_DemoTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -482,6 +507,7 @@
 		4210E7D61CC0A6EF009F15C3 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				INFOPLIST_FILE = HeartRate_DemoTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -494,6 +520,7 @@
 		4210E7D81CC0A6EF009F15C3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				INFOPLIST_FILE = HeartRate_DemoUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.Vitamio.ios.HeartRate-DemoUITests";
@@ -506,6 +533,7 @@
 		4210E7D91CC0A6EF009F15C3 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				INFOPLIST_FILE = HeartRate_DemoUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.Vitamio.ios.HeartRate-DemoUITests";

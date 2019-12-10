@@ -14,7 +14,7 @@
 
 @protocol AnalysisDelegate
 
--(void) rmssdIsReady: (float)result;
+-(void) periodsReady:(NSArray *) periods;
 
 @end
 
@@ -28,6 +28,7 @@
 	float periodStart;
 	double periods[MAX_PERIODS_TO_STORE];
 	double periodTimes[MAX_PERIODS_TO_STORE];
+    NSMutableArray *periodTimesArr;
 	
 	int periodIndex;
 	bool started;
@@ -43,6 +44,5 @@
 -(float) addNewValue:(float) newVal atTime:(double) time;
 -(float) getAverage;
 -(void) reset;
--(float) calculateRMSSD;
 
 @end

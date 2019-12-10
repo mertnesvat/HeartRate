@@ -10,6 +10,8 @@
 #import <AVFoundation/AVFoundation.h>
 #import "PulseDetector.h"
 #import "Filter.h"
+#import "HRV_Analysis-Swift.h"
+
 @interface ViewController ()<AVCaptureVideoDataOutputSampleBufferDelegate, AnalysisDelegate>{
     BOOL showText; //自己个性化加个标识
 }
@@ -330,11 +332,26 @@ void RGBtoHSV( float r, float g, float b, float *h, float *s, float *v ) {
     }
 }
 
-- (void)rmssdIsReady:(float)result {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        self.rmmsd.text = [[NSString alloc] initWithFormat:@"RMMSD Result = %f", result];
-    });
+//- (void)rmssdIsReady:(float)result {
+//    dispatch_async(dispatch_get_main_queue(), ^{
+//        self.rmmsd.text = [[NSString alloc] initWithFormat:@"RMMSD Result = %f", result];
+//    });
+//
+//}
+
+-(void)periodsReady:(NSArray *) periods {
+    HRVUtils *utils = [[HRVUtils alloc] init];
     
+    
+    
+    double rmmsd = [utils calcRMSSD:periods];
+    double avnn = [utils calcAVNN:periods];
+    double sdnn = [utils calcSDNN:periods];
+    double pnn = [utils calcPNN50:periods];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.rmmsd.text = [NSString stringWithFormat:@"%.2f | %.2f | %.2f| %.2f",rmmsd,avnn,sdnn, pnn];
+    });
+
 }
 
 @end

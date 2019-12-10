@@ -31,21 +31,22 @@
 }
 
 -(void) reset {
-	for(int i=0; i<MAX_PERIODS_TO_STORE; i++) {
-		periods[i]=INVALID_ENTRY;
-	}
-	for(int i=0; i<AVERAGE_SIZE; i++) {
-		upVals[i]=INVALID_ENTRY;
-		downVals[i]=INVALID_ENTRY;
-	}	
-  freq=0.5;
-  periodIndex=0;
-  downValIndex=0;
-  upValIndex=0;
+    for(int i=0; i<MAX_PERIODS_TO_STORE; i++) {
+        periods[i]=INVALID_ENTRY;
+    }
+    for(int i=0; i<AVERAGE_SIZE; i++) {
+        upVals[i]=INVALID_ENTRY;
+        downVals[i]=INVALID_ENTRY;
+    }	
+    freq=0.5;
+    periodIndex=0;
+    downValIndex=0;
+    upValIndex=0;
+    periodTimesArr = [[NSMutableArray alloc] init];
 }
 
 -(float) addNewValue:(float) newVal atTime:(double) time {	
-  // 我们跟踪的数量值高于和低于零
+  // The quantity values we track are above and below zero
     
 	if(newVal>0) {
 		upVals[upValIndex]=newVal;
@@ -61,7 +62,7 @@
 			downValIndex=0;
 		}		
 	}
-  // 计算出平均值高于零
+  // Calculate average above zero
     
 	float count=0;
 	float total=0;
@@ -72,7 +73,7 @@
 		}
 	}
 	float averageUp=total/count;
-  //和平均值低于零
+  //And the mean is below zero
     
 	count=0;
 	total=0;
@@ -95,11 +96,11 @@
 		if(time-periodStart<MAX_PERIOD && time-periodStart>MIN_PERIOD) {
 			periods[periodIndex]=time-periodStart;
 			periodTimes[periodIndex]=time;
+            [periodTimesArr addObject:[NSNumber numberWithDouble:time-periodStart]];
 			periodIndex++;
             NSLog(@"\n PERIOD INDEX = %d", periodIndex);
 			if(periodIndex>=MAX_PERIODS_TO_STORE) {
-                float hrv = [self calculateRMSSD];
-                [self.delegate rmssdIsReady:hrv];
+                [self.delegate periodsReady:[NSArray arrayWithArray:periodTimesArr]];
                 periodIndex=0;
 			}
 		}
@@ -129,19 +130,19 @@
 
  
  */
--(float) calculateRMSSD {
-    float d = 0.0;
-    float size = MAX_PERIODS_TO_STORE-1;
-    for (int i = 0; i < MAX_PERIODS_TO_STORE-1; i++) {
-        float interval0 = periodTimes[i];
-        float interval1 = periodTimes[i+1];
-        float diff = interval1 - interval0;
-        
-        d += (diff * diff);
-    }
-    
-    return sqrt(d/size);
-}
+//-(float) calculateRMSSD {
+//    float d = 0.0;
+//    float size = MAX_PERIODS_TO_STORE-1;
+//    for (int i = 0; i < MAX_PERIODS_TO_STORE-1; i++) {
+//        float interval0 = periodTimes[i];
+//        float interval1 = periodTimes[i+1];
+//        float diff = interval1 - interval0;
+//        
+//        d += (diff * diff);
+//    }
+//    
+//    return sqrt(d/size);
+//}
 
 -(float) getAverage {
 	double time=CACurrentMediaTime();
